@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>全屏iOS模拟桌面</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        html, body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* 全屏屏幕主体 */
+        .screen {
+            width: 100%;
+            height: 100%;
+            background: url('https://picsum.photos/1920/1080') center/cover no-repeat;
+            position: relative;
+        }
+
+        /* 顶部状态栏 */
+        .status-bar {
+            height: 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 24px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .status-right {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        /* APP图标布局区 */
+        .app-container {
+            padding: 40px 30px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px 15px;
+            max-width: 600px;
+        }
+
+        .app-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .app-icon {
+            width: 65px;
+            height: 65px;
+            border-radius: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .app-name {
+            font-size: 13px;
+            color: #fff;
+            text-shadow: 0 0 3px #000;
+        }
+
+        /* 设置图标样式 */
+        .setting-icon {
+            background: #8e8e93;
+        }
+
+        /* 底部Dock栏 */
+        .dock {
+            position: absolute;
+            bottom: 40px;
+            left: 30px;
+            right: 30px;
+            height: 90px;
+            background: rgba(255,255,255,0.25);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* 设置应用页面 */
+        .setting-page {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #f2f2f7;
+            display: none;
+            flex-direction: column;
+        }
+
+        .set-header {
+            padding: 60px 25px 25px;
+            font-size: 34px;
+            font-weight: 600;
+        }
+
+        .set-list {
+            padding: 0 20px;
+        }
+
+        .set-item {
+            background: #fff;
+            padding: 14px 18px;
+            margin-bottom: 1px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .set-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 58px;
+            left: 20px;
+            color: #007aff;
+            font-size: 17px;
+            cursor: pointer;
+        }
+
+        /* 底部主页指示条 */
+        .home-indicator {
+            position: absolute;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 140px;
+            height: 6px;
+            background: rgba(255,255,255,0.6);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="screen">
+        <!-- 顶部状态栏 -->
+        <div class="status-bar">
+            <span id="currentTime">09:41</span>
+            <div class="status-right">
+                <span>📶</span>
+                <span>🔋</span>
+            </div>
+        </div>
+
+        <!-- 桌面APP区域 -->
+        <div class="app-container">
+            <!-- 唯一默认APP：设置 -->
+            <div class="app-item" onclick="openSetting()">
+                <div class="app-icon setting-icon">⚙️</div>
+                <div class="app-name">设置</div>
+            </div>
+            <!-- 此处自行新增应用代码 -->
+        </div>
+        <div id="shop" class="app-page">
+  <div class="back" onclick="closeAll()">返回</div>
+  <div class="page-header">应用商店</div>
+  <div id="shopList" style="padding:15px;"></div>
+</div>
+
+        <!-- 底部Dock栏 -->
+        <div class="dock"></div>
+
+        <!-- 设置应用页面 -->
+        <div class="setting-page" id="settingPage">
+            <span class="back-btn" onclick="closeSetting()">返回</span>
+            <div class="set-header">设置</div>
+            <div class="set-list">
+                <div class="set-item">
+                    <div class="set-icon" style="background:#007aff;">👤</div>
+                    <span>个人信息</span>
+                </div>
+                <div class="set-item">
+                    <div class="set-icon" style="background:#ff9500;">🔔</div>
+                    <span>通知</span>
+                </div>
+                <div class="set-item">
+                    <div class="set-icon" style="background:#34c759;">📶</div>
+                    <span>无线网络</span>
+                </div>
+                <div class="set-item">
+                    <div class="set-icon" style="background:#5e5ce6;">🔆</div>
+                    <span>显示与亮度</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部触控条 -->
+        <div class="home-indicator"></div>
+    </div>
+
+    <script>
+        // 实时时间更新
+        function updateTime() {
+            const now = new Date();
+            const h = now.getHours().toString().padStart(2,'0');
+            const m = now.getMinutes().toString().padStart(2,'0');
+            document.getElementById('currentTime').innerText = `${h}:${m}`;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // 打开设置
+        function openSetting(){
+            document.getElementById('settingPage').style.display = 'flex';
+        }
+        // 返回桌面
+        function closeSetting(){
+            document.getElementById('settingPage').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
