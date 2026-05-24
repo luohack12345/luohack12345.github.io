@@ -1,0 +1,24 @@
+[
+    {
+        "id":"clock",
+        "name":"简易时钟",
+        "icon":"🕒",
+        "bgColor":"#ff3b30",
+        "price":2,
+        "desc":"实时走动数字时钟",
+        "iconHtml":"<div class=\"app\" onclick=\"openApp('clock')\"><div class=\"app-icon\" style=\"background:#ff3b30;\">🕒</div><div class=\"app-name\">简易时钟</div></div>",
+        "pageHtml":"<div id=\"clock\" class=\"app-page\"><div class=\"back\" onclick=\"closeAll()\">返回</div><div class=\"page-header\">时钟</div><div style=\"font-size:70px;text-align:center;margin-top:80px\" id=\"clockShow\"></div></div>",
+        "runJs":"setInterval(()=>{let t=new Date();document.getElementById('clockShow').innerText=t.toLocaleTimeString()},1000)"
+    },
+    {
+        "id":"game",
+        "name":"休闲小游戏",
+        "icon":"🎮",
+        "bgColor":"#34c759",
+        "price":2,
+        "desc":"单机休闲趣味小游戏",
+        "iconHtml":"<div class=\"app\" onclick=\"openApp('game')\"><div class=\"app-icon\" style=\"background:#34c759;\">🎮</div><div class=\"app-name\">休闲游戏</div></div>",
+        "pageHtml":"<div id=\"game\" class=\"app-page\"><div class=\"back\" onclick=\"closeAll()\">返回</div><div class=\"page-header\">小游戏</div><div style=\"text-align:center;margin-top:60px;font-size:20px\">游戏加载完成<br>即可开始游玩</div></div>",
+        "runJs":""
+    }
+]
